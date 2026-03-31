@@ -19,7 +19,19 @@ export const Footer = () => {
   return (
     <BottomNavigation
       className='footer-menu'
-      sx={{ width: "100%", position: "fixed", bottom: 0, zIndex:'9999' }}
+      sx={{
+    width: "100%",
+    position: "fixed",
+    bottom: 0,
+    zIndex: 9999,
+    backgroundColor: "#000", // fon
+    "& .MuiBottomNavigationAction-root": {
+      color: "#aaa", // default icon/text
+    },
+    "& .Mui-selected": {
+      color: "rgb(255, 106, 0)", // active rang
+    },
+  }}
       value={location.pathname}
     >
       <BottomNavigationAction
