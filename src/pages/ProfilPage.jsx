@@ -11,9 +11,6 @@ export const ProfilPage = () => {
           <p className="telegram">Your Telegram username</p>
         </div>
       </div>
-      <Button color="danger" variant="dashed"  style={{marginTop:'20px', background:'black'}}>
-        Log out
-          </Button>
     </div>
   )
 }
