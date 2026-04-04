@@ -6,12 +6,11 @@ import { Footer } from "./components/Footer.jsx";
 import { NotInternet } from "./pages/index.js";
 
 function App() {
-  const [value, setValue] = useState(true);
 
   return (
     
     <>
-      {value && <Header />}
+     <Header />
 
       <Routes>
         {routes.map((route) => (
@@ -23,7 +22,7 @@ function App() {
         ))}
       </Routes>
 
-      {value && <Footer />}
+      <Footer />
     </>
   );
 }

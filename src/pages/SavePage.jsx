@@ -27,7 +27,7 @@ export const SavePage = () => {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div style={{color:'white', padding:'20px', marginTop:'500px'}}>
+    <div style={{color:'white', padding:'20px', marginTop:'400px'}}>
       <p>ID: {user?.id}</p>
       <p>Name: {user?.first_name} {user?.last_name}</p>
       <p>Username: {user?.username}</p>

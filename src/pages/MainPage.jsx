@@ -12,13 +12,56 @@ import 'swiper/css/navigation';
 
 
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
+import { Navigate } from 'react-router';
 export const MainPage = () => {
+
+  const API_URL = "https://zakazlar688user.alwaysdata.net/api/homepage/";
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
   const onAutoplayTimeLeft = (s, time, progress) => {
     progressCircle.current.style.setProperty('--progress', 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
+  useEffect(() => {
+      const tg = window.Telegram.WebApp;
+      fetch(API_URL)
+      .then((res) => {
+        if (!res.ok) throw new Error("Xatolik: " + res.status);
+        return res.json();
+      })
+      .then((json) => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+
+      if (tg.initData) {
+        fetch("https://zakazlar688user.alwaysdata.net/api/auth/telegram/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            initData: tg.initData
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log('ishladi');
+          });
+        }
+      }, []);
+
+    if (loading) return <p>Yuklanmoqda...</p>;
+    if (error) return <p>Xato: {error}</p>;
 
 
   return (
@@ -41,18 +84,18 @@ export const MainPage = () => {
         onAutoplayTimeLeft={onAutoplayTimeLeft}
         className="mySwiper"
       > 
-        <SwiperSlide><img style={{width:'100%', height:'100%'}} src="https://i.pinimg.com/736x/7f/4a/dc/7f4adc971b328bffbf4d31eb8e4cf83c.jpg" alt="" /></SwiperSlide>
-        <SwiperSlide><img style={{width:'100%', height:'100%'}} src="https://i.pinimg.com/1200x/56/ea/ab/56eaab20df61c82b0ab37b5d78666080.jpg" alt="" /></SwiperSlide>
-        <SwiperSlide><img style={{width:'100%', height:'100%'}} src="https://i.pinimg.com/736x/d6/fc/e1/d6fce118b27037475f20c95e5cc7c53a.jpg" alt="" /></SwiperSlide>
-        <SwiperSlide><img style={{width:'100%', height:'100%'}} src="https://i.pinimg.com/736x/ce/59/d9/ce59d91574e3c0637a19924eade64c20.jpg" alt="" /></SwiperSlide>
-        <SwiperSlide><img style={{width:'100%', height:'100%'}} src="https://i.pinimg.com/1200x/49/cc/38/49cc382afb33d4c1cc16cdc8c512b20e.jpg" alt="" /></SwiperSlide>
+        {data?.slider?.map((item) => (
+          <SwiperSlide key={item.id}>
+            <img style={{width:'100%', height:'100%'}} src={item.poster_url} alt={item.title} />
+          </SwiperSlide>
+        ))}
         
         <div className="autoplay-progress" slot="container-end">
           <svg viewBox="0 0 48 48" ref={progressCircle}>
             <circle cx="24" cy="24" r="20"></circle>
           </svg>
           <span ref={progressContent}></span>
-        </div>
+        </div>k
       </Swiper>
       
       </div >
@@ -74,18 +117,14 @@ export const MainPage = () => {
             modules={[Autoplay,EffectFade ]}
             className="mySwiper"
           >
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </SwiperSlide>
+            {data?.ads?.map((item, index) => (
+              <SwiperSlide key={index}>
+                <a href={item.link_url} target="_blank" rel="noopener noreferrer">
+                  <img src={item.image_url} />
+                </a>
+              </SwiperSlide>
+            ))}
+
           </Swiper>
         </div>
       
@@ -108,91 +147,24 @@ export const MainPage = () => {
         }}
         className="mySwiper"
       >
-        <SwiperSlide >
-                    <Card
+        {data?.top_animes?.map((item) => (
+          <SwiperSlide key={item.id}>
+            <Card
               hoverable
-              style={{ width: '100%',  padding: '0'}}
+              style={{ width: '100%', padding: '0' }}
               cover={
                 <img
                   draggable={true}
-                  alt="example"
-                  src="https://i.pinimg.com/736x/45/6f/d1/456fd1ea63c2ebf7ca6132765f6cbe81.jpg"
+                  alt={item.title}
+                  src={item.poster_url}
                 />
               }
-              
+              onClick={() => Navigate(`/anime/${item.id}/`)}
             >
-              <h4>Anime</h4>
-              
+              <h4>{item.title}</h4>
             </Card>
-        </SwiperSlide>
-        <SwiperSlide >
-                    <Card
-              hoverable
-              style={{ width: '100%',  padding: '0'}}
-              cover={
-                <img
-                  draggable={true}
-                  alt="example"
-                  src="https://i.pinimg.com/736x/45/6f/d1/456fd1ea63c2ebf7ca6132765f6cbe81.jpg"
-                />
-              }
-              
-            >
-              <h4>Anime</h4>
-              
-            </Card>
-        </SwiperSlide>
-        <SwiperSlide >
-                    <Card
-              hoverable
-              style={{ width: '100%',  padding: '0'}}
-              cover={
-                <img
-                  draggable={true}
-                  alt="example"
-                  src="https://i.pinimg.com/736x/45/6f/d1/456fd1ea63c2ebf7ca6132765f6cbe81.jpg"
-                />
-              }
-              
-            >
-              <h4>Anime</h4>
-              
-            </Card>
-        </SwiperSlide>
-        <SwiperSlide >
-                    <Card
-              hoverable
-              style={{ width: '100%',  padding: '0'}}
-              cover={
-                <img
-                  draggable={true}
-                  alt="example"
-                  src="https://i.pinimg.com/736x/45/6f/d1/456fd1ea63c2ebf7ca6132765f6cbe81.jpg"
-                />
-              }
-              
-            >
-              <h4>Anime</h4>
-              
-            </Card>
-        </SwiperSlide>
-        <SwiperSlide >
-                    <Card
-              hoverable
-              style={{ width: '100%',  padding: '0'}}
-              cover={
-                <img
-                  draggable={true}
-                  alt="example"
-                  src="https://i.pinimg.com/736x/45/6f/d1/456fd1ea63c2ebf7ca6132765f6cbe81.jpg"
-                />
-              }
-              
-            >
-              <h4>Anime</h4>
-              
-            </Card>
-        </SwiperSlide>
+          </SwiperSlide>
+        ))}
         
       </Swiper>
 
