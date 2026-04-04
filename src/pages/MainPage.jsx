@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {Card, Button, Flex } from 'antd';
 const { Meta } = Card;
 
@@ -15,7 +15,7 @@ import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import { Navigate } from 'react-router';
 export const MainPage = () => {
 
-  const API_URL = "https://zakazlar688user.alwaysdata.net/api/homepage/";
+  const API_UR = "https://zakazlar688user.alwaysdata.net/api/homepage/";
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ export const MainPage = () => {
   };
   useEffect(() => {
       const tg = window.Telegram.WebApp;
-      fetch(API_URL)
+      fetch(API_UR)
       .then((res) => {
         if (!res.ok) throw new Error("Xatolik: " + res.status);
         return res.json();
