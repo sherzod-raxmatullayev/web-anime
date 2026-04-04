@@ -44,7 +44,7 @@ export const MainPage = () => {
       });
 
       if (tg.initData) {
-        fetch("https://zakazlar688user.alwaysdata.net/api/auth/telegram/", {
+        fetch("https://zakazlar688user.alwaysdata.net/users/auth/telegram/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -55,7 +55,7 @@ export const MainPage = () => {
         })
         .then(res => res.json())
         .then(data => {
-          console.log('ishladi');
+          console.log("Telegram foydalanuvchi ma'lumotlari:", data);
           });
         }
       }, []);
