@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { routes } from "./utils/routes.jsx";
 import { Routes, Route } from 'react-router-dom';
 import Header from "./components/Header.jsx";
 import { Footer } from "./components/Footer.jsx";
-import { NotInternet } from "./pages/index.js";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
-
   return (
-    
     <>
-     <Header />
+      <Header />
 
       <Routes>
         {routes.map((route) => (
@@ -24,6 +21,8 @@ function App() {
       </Routes>
 
       <Footer />
+
+      <SpeedInsights />
     </>
   );
 }
