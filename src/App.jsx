@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Header from "./components/Header.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { NotInternet } from "./pages/index.js";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 function App() {
 
