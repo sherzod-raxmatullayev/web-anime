@@ -107,36 +107,70 @@ const css = `
     padding: 0 14px 14px !important;
   }
   .anime-card {
-    border-radius: 10px;
-    overflow: hidden;
-    background: #14141e;
-    border: 1px solid #FF6A0020;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.15s;
-    position: relative;
-  }
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 2 / 3; /* anime poster */
+  border-radius: 12px;
+  overflow: hidden;
+
+  background: #14141e;
+  border: 1px solid rgba(255, 106, 0, 0.12);
+
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+  .anime-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 106, 0, 0.35);
+}
+  .anime-card:active {
+  transform: scale(0.97);
+}
   .anime-card:active { transform: scale(0.97); }
   .anime-card-img {
-    width: 100%;
-    height: 148px;
-    object-fit: cover;
-    display: block;
-  }
+  position: absolute;
+  inset: 0; /* top:0 left:0 right:0 bottom:0 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
   .anime-card-gradient {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 60px;
-    background: linear-gradient(to bottom, transparent, #14141e);
-  }
-  .anime-card-title {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 5px 7px 6px;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(
+    to top,
+    rgba(20, 20, 30, 0.95),
+    rgba(20, 20, 30, 0.6),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.anime-card-title {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  right: 8px;
+
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 2 qator */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  z-index: 2;
+}
+
   .anime-card-ep {
     position: absolute;
     top: 6px; right: 6px;
@@ -293,11 +327,12 @@ export const MainPage = () => {
             <SwiperSlide key={item.id}>
               <div className="anime-card" onClick={() => navigate(`/anime/${item.id}/`)}>
                 <img className="anime-card-img" src={item.poster_url} alt={item.title} />
+                <div className="anime-card-title">{item.title}</div>
                 <div className="anime-card-gradient" />
                 {item.episodes_count && (
                   <div className="anime-card-ep">{item.episodes_count} EP</div>
                 )}
-                <div className="anime-card-title">{item.title}</div>
+                
               </div>
             </SwiperSlide>
           ))}
